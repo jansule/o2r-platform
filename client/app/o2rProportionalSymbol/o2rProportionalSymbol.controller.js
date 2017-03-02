@@ -23,15 +23,8 @@
                 zoom: 8
             },
             layers: {
-                baselayers: {/*
-                    osm: {
-                        name: 'OpenStreetMap',
-                        url: 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-                        type: 'xyz'
-                    }*/
-                },
+                baselayers: {},
                 overlays: {}
-
             }
         });
 
@@ -45,89 +38,48 @@
 
             function successCb(response){
                 $log.debug(response.data);
-                if(!vm.geojson){
-                    vm.geojson = createGeoJsonObject(response.data);
-                    vm.labelClasses = angular.copy(vm.classify);
-                    /*
-                    vm.legend = {
-                        position: vm.legendPos,
-                        colors: vm.colors,
-                        labels: vm.labelClasses
-                    };
-                    */
-                    $log.debug(vm.geojson);
-                    console.log(findPolygonCenter.center(response.data));
-                    //vm.markers = findPolygonCenter.createMarkers(findPolygonCenter.center(response.data), 'GEN');
-                            
-
-                    angular.extend(vm.layers.overlays, {
-                        shape: {
-                            name: 'BaseShape',
-                            type: 'geoJSONShape',
-                            data: response.data,
-                            visible: true,
-                            layerOptions: {
-                                /*
-                                color: '#000',
-                                fillColor: '#000',
-                                weight: 2,
-                                opacity: 1,
-                                fillOpacity: 1
-                                */
-                                style: function(feature){
-                                    return {
-                                        fillColor: getColor(feature.properties[vm.compareVal]),
-                                        weight: 2,
-                                        opacity: 1,
-                                        color: 'white',
-                                        dashArray: '3',
-                                        fillOpacity: 1
-                                    };
-                                }
-                            }
+                console.log(findPolygonCenter.center(response.data));
+                angular.extend(vm.layers.baselayers, {
+                    shape: {
+                        name: 'BaseShape',
+                        type: 'geoJSONShape',
+                        data: response.data,
+                        visible: true,
+                        layerOptions: {
+                            color: '#000',
+                            fillColor: '#000',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0
                         }
-                    });
-                }
+                    }
+                });
+
+                
+                angular.extend(vm.layers.overlays, {
+                    markers : {
+                        name:'Major Cities (Awesome Markers)',
+                        type: 'geoJSONShape',
+                        data: findPolygonCenter.createMarkers(findPolygonCenter.center(response.data)),
+                        visible: true,
+                        layerOptions: {
+                            pointToLayer: create
+                            
+                        }
+                        
+                    }
+                });
+                
             }
 
             function errorCb(response){
                 $log.debug('error');
                 $log.debug(response);
             }
-/*
-            $http.get('app/compareMapsView/majorCities.json').then(function(response){
-                angular.extend(vm.layers.overlays, {
-                        markers : {
-                            name:'Major Cities (Awesome Markers)',
-                            type: 'geoJSONAwesomeMarker',
-                            data: response.data,
-                            visible: true,
-                            icon: {
-                                icon: 'heart',
-                                markerColor: 'red',
-                                prefix: 'fa'
-                            }
-                        }
-                    });
-            }, function(error){
-                console.log(error);
-            });
-*/
+
+
         }
 
-        
-        var createGeoJsonObject = function (data){
-            $log.debug(data);
-            return {
-                data: data,
-                style: create
-            };
-        };
-
-        function test (o){
-             
-            return o.properties.GEN === 'Darmstadt'? '#FFF' : '#000';
-        }
         function getColor(d){
             var i = 0;
             var noColorSelected = true;
@@ -140,15 +92,22 @@
             return vm.colors[i];
         }
 
-        function create(data){
-            return {
-                fillColor: getColor(data.properties[vm.compareVal]),
-                weight: 2,
+        function create(feature, latlng){
+            return L.circleMarker(latlng, {
+                /*
+                type: 'div',
+                //iconSize: [50, 20],
+                popupAnchor:  [0, 0],
+                html: 'Hello World',
+                className: 'o2r-leaflet-div-icon'
+                */
+                radius: 0.1 * (feature.properties[vm.compareVal]),
+                fillColor: vm.color,
+                color: vm.color,
+                weight: 1,
                 opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 1
-            };
+                fillOpacity: 0.8
+            });
         }
     }
 })();

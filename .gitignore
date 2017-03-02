@@ -11,7 +11,8 @@ testFiles/
 node_modules/
 
 #ignore unit tests
-lib/
+lib/*
+!lib/turf
 spec/
 karma.conf.js
 

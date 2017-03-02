@@ -1,0 +1,7 @@
+<div layout="row" ng-if="true">
+    <o2r-choropleth flex="100" compare-val="vm.test" classify="vm.class1" colors="vm.colors1" show-label="vm.test" legend-pos="'bottomleft'"></o2r-choropleth>
+    <o2r-choropleth flex-offset="5" flex="100" compare-val="vm.test2" classify="vm.class2" colors="vm.colors2"></o2r-choropleth>
+</div>
+<div layout="row" style="margin-top: 10%;">
+    <o2r-proportional-symbol flex="100" compare-val="vm.test2" classify="vm.class2" color="vm.colors2[0]" colors="vm.colors2"></o2r-proportional-symbol>
+</div>

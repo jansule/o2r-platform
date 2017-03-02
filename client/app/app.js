@@ -7,6 +7,8 @@
             "starter.o2rDisplayFiles",
             "starter.o2rCompare",
             "starter.o2rHttp",
+            "starter.o2rChoropleth",
+            "starter.o2rProportionalSymbol",
             "treeControl",
             "hljs",
             "ui.router", 
@@ -18,7 +20,8 @@
             'angulartics', 
             'angulartics.piwik',
             'angularUtils.directives.dirPagination',
-            'ngProgress'])
+            'ngProgress',
+            'leaflet-directive'])
         .constant('icons', icons())
         .config(config);
     
@@ -173,6 +176,12 @@
                 url: "/compare",
                 templateUrl: "app/compareView/compare.html",
                 controller: 'CompareController',
+                controllerAs: 'vm'
+            })
+            .state('comparemaps',{
+                url: "/comparemaps",
+                templateUrl: "app/compareMapsView/compareMaps.html",
+                controller: 'CompareMapsController',
                 controllerAs: 'vm'
             })
             .state('impressum', {

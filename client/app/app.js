@@ -9,6 +9,7 @@
             "starter.o2rHttp",
             "starter.o2rChoropleth",
             "starter.o2rProportionalSymbol",
+            "starter.o2rChoroProp",
             "treeControl",
             "hljs",
             "ui.router", 
@@ -182,7 +183,10 @@
                 url: "/comparemaps",
                 templateUrl: "app/compareMapsView/compareMaps.html",
                 controller: 'CompareMapsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    data: compareMapsService
+                }
             })
             .state('impressum', {
                 url: "/impressum",
@@ -274,5 +278,10 @@
         var term = $stateParams.q;
         $log.debug('searchResultsService, term: ' + term);
         return metadata.callMetadata_search(term);
+    }
+
+    compareMapsService.$inject = ['$http'];
+    function compareMapsService($http){
+        return $http.get('app/compareMapsView/kreise_hessen.json');
     }
 })();  

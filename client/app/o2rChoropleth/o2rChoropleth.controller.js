@@ -16,11 +16,7 @@
 
         $log.debug($scope);
         angular.extend(vm, {
-            center: {
-                lat:50.950641,
-                lng: 10.239258,
-                zoom: 8
-            },
+            center: {},
             layers: {
                 baselayers: {},
                 overlays: {}
@@ -55,6 +51,12 @@
                         colors: vm.colors,
                         labels: vm.labelClasses
                     }
+                });
+                var center = turf.center(response.data);
+                angular.extend(vm.center, {
+                    lat: center.geometry.coordinates[1],
+                    lng: center.geometry.coordinates[0],
+                    zoom: 8
                 });
             }
 

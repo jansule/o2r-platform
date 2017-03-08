@@ -18,7 +18,8 @@
                 color: '=',
                 colors: '=',
                 showLabel: '=',
-                legendPos: '='
+                legendPos: '=',
+                data: '='
             },
             link: link
         };
@@ -31,6 +32,7 @@
             if(!attrs.hasOwnProperty('legendPos')){
                 scope.legendPos = null;
             }
+            
         }
     }
 })();

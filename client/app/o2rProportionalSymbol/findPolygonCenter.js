@@ -31,7 +31,7 @@
                     type: 'Feature',
                     properties: feature[i].properties
                 }
-                centroid = turf.centroid(feature[i]);
+                centroid = turf.center(feature[i]);
                 feat.geometry = centroid.geometry;
                 result.features.push(feat);
             }

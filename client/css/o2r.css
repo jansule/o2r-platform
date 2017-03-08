@@ -309,11 +309,3 @@ o2r-compare md-card-content{
             line-height: 18px;
             color: #555;
         }
-
-.o2r-leaflet-div-icon {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    background: red !important;
-    border-color: red !important;
-}

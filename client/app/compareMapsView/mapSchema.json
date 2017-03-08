@@ -1,0 +1,150 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "map schema",
+    "description": "Schema of a single map",
+    "type": "object",
+    "definitions": {
+        "choropleth": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["choropleth"]
+                },
+                "number-of-classes": {
+                    "type": "integer"
+                },
+                "colors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "legend": {
+                    "type": "object",
+                    "properties": {
+                        "display-min": {
+                            "type": "boolean"
+                        },
+                        "display-max": {
+                            "type": "boolean"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "position": {
+                            "type": "string",
+                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
+                        }
+                    }
+                }
+            }
+        },
+        "proportionalSymbol": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["proportionalSymbol"]
+                },
+                "color": {
+                    "type": "string"
+                },
+                "symboltype": {
+                    "type": "string",
+                    "enum": ["circle", "square", "other"]
+                },
+                "legend": {
+                    "type": "object",
+                    "properties": {
+                        "number-of-symbols": {
+                            "type": "integer"
+                        },
+                        "display-max-size": {
+                            "type": "boolean"
+                        },
+                        "display-min-size": {
+                            "type": "boolean"
+                        },
+                        "display-max": {
+                            "type": "boolean"
+                        },
+                        "display-min": {
+                            "type": "boolean"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "additionalInfo": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "object",
+                    "properties": {
+                        "displayed": {
+                            "type": "boolean",
+                            "description": "true if labels are displayed"
+                        },
+                        "dataType": {
+                            "type": "object",
+                            "enum": ["String", "Integer", "Float", "Double"]
+                        },
+                        "display-value": {
+                            "type": "boolean",
+                            "description": "true if values of symbols are displayed"
+                        }
+                    },
+                    "required": ["displayed"]
+                },
+                "table": {
+                    "type": "object",
+                    "properties": {
+                        "displayed": {
+                            "type": "boolean"
+                        },
+                        "displayed-value": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }   
+                    },
+                    "required": ["displayed"]
+                }
+            }
+        }
+    },
+    "properties": {
+        "maptype": {
+            "type": "object",
+            "oneOf": [
+                {"$ref": "#/definitions/choropleth"},
+                {"$ref": "#/definitions/proportionalSymbol"}
+            ]
+        },
+        "scale-of-measurement": {
+            "type": "string"
+        },
+        "value-to-display": {
+            "type": "string"
+        },
+        "additionalInfo": {
+            "$ref": "#/definitions/additionalInfo"
+        },
+        "raw": {
+            "type": "object",
+            "description": "contains geojson"
+        }
+    },
+    "required": [
+        "maptype",
+        "scale-of-measurement",
+        "value-to-display",
+        "additionalInfo",
+        "raw"
+    ]
+}

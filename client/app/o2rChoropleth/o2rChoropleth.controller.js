@@ -41,12 +41,13 @@
                 }
             });
             vm.labelClasses = angular.copy(vm.classify);
-            vm.labelClasses.push('more');
+            //vm.labelClasses.push('more');
+            var legendlabel = prepareLegend(vm.labelClasses);
             angular.extend(vm, {
                 legend: {
                     position: vm.legendPos,
                     colors: vm.colors,
-                    labels: vm.labelClasses
+                    labels: legendlabel
                 }
             });
             var center = turf.center(vm.data);
@@ -79,6 +80,13 @@
             };
         }
 
-        
+        function prepareLegend(classes){
+            var result = [];
+            for(var i in classes){
+                result.push('< ' + classes[i]);
+            }
+            result.push(classes[classes.length-1] + ' +');
+            return result;
+        }
     }
 })();

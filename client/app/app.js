@@ -11,6 +11,7 @@
             "starter.o2rProportionalSymbol",
             "starter.o2rChoroProp",
             "starter.o2rMapHelper",
+            "starter.o2rMapComparability",
             "treeControl",
             "hljs",
             "ui.router", 

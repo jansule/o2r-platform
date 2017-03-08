@@ -13,13 +13,21 @@
             controller: 'O2rChoroPropController',
             controllerAs: 'vm',
             scope: {
-
+                choroData: '=',
+                choroCompareVal: '=',
+                choroClassify: '=',
+                choroColors: '=',
+                choroShowLabel: '=',
+                propData: '=',
+                propCompareVal: '=',
+                propColor: '=',
+                propShowLabel: '='
             },
             link: link
         };
 
         function link(scope, element, attrs){
-
+            
         }
     }
 })();

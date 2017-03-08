@@ -1,7 +1,39 @@
-<div layout="row" ng-if="false">
-    <o2r-choropleth flex="100" compare-val="vm.test" classify="vm.class1" colors="vm.colors1" show-label="vm.test" legend-pos="'bottomleft'"></o2r-choropleth>
-    <o2r-choropleth flex-offset="5" flex="100" compare-val="vm.test2" classify="vm.class2" colors="vm.colors2"></o2r-choropleth>
+<div layout="row" ng-if="true">
+    <o2r-choropleth 
+        flex="100"
+        data="vm.data" 
+        compare-val="vm.test" 
+        classify="vm.class1" 
+        colors="vm.colors1" 
+        show-label="vm.test" 
+        legend-pos="'bottomleft'"></o2r-choropleth>
+    <o2r-choropleth 
+        data="vm.data"
+        flex-offset="5" 
+        flex="100" 
+        compare-val="vm.test2" 
+        classify="vm.class2" 
+        colors="vm.colors2"></o2r-choropleth>
+</div>
+<div layout="row" style="margin-top: 10%;" ng-if="true">
+    <o2r-proportional-symbol 
+        flex-offset="5" 
+        flex="100" 
+        data="vm.data" 
+        compare-val="vm.test2" 
+        classify="vm.class2" 
+        color="vm.colors2[3]"></o2r-proportional-symbol>
 </div>
 <div layout="row" style="margin-top: 10%;">
-    <o2r-proportional-symbol flex-offset="5" flex="100" data="vm.data" compare-val="vm.test2" classify="vm.class2" color="vm.colors2[3]" colors="vm.colors2"></o2r-proportional-symbol>
+    <o2r-choro-prop 
+        flex="100" 
+        choro-data="vm.data" 
+        choro-compare-val="vm.test"
+        choro-classify="vm.class1"
+        choro-colors="vm.colors1"
+        choro-show-label="vm.test" 
+        prop-data="vm.data" 
+        prop-compare-val="vm.test2"
+        prop-color="vm.colors2[3]"
+        prop-show-label="vm.test2" ></o2r-choro-prop>
 </div>

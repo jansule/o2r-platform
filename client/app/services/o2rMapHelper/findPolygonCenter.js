@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('starter.o2rProportionalSymbol')
+        .module('starter.o2rMapHelper')
         .factory('findPolygonCenter', findPolygonCenter);
     
     findPolygonCenter.$inject = [];

@@ -5,9 +5,10 @@
         .module('starter.o2rChoropleth')
         .controller('O2rChoroplethController', O2rChoroplethController);
 
-    O2rChoroplethController.$inject = ['$scope', '$log', '$http', 'leafletMapEvents'];
-    function O2rChoroplethController($scope, $log, $http, leafletMapEvents){
+    O2rChoroplethController.$inject = ['$scope', '$log'];
+    function O2rChoroplethController($scope, $log){
         var vm = this;
+        vm.data = $scope.data;
         vm.compareVal = $scope.compareVal;
         vm.classify = $scope.classify;
         vm.colors = $scope.colors;
@@ -28,42 +29,32 @@
         /////////////
 
         function activate(){
-            $http.get('app/compareMapsView/kreise_hessen.json')
-                .then(successCb, errorCb);
-
-            function successCb(response){
-                angular.extend(vm.layers.baselayers, {
-                    shape: {
-                        name: 'BaseShape',
-                        type: 'geoJSONShape',
-                        data: response.data,
-                        visible: true,
-                        layerOptions: {
-                           style: create
-                        }
+            angular.extend(vm.layers.baselayers, {
+                shape: {
+                    name: vm.compareVal,
+                    type: 'geoJSONShape',
+                    data: vm.data,
+                    visible: true,
+                    layerOptions: {
+                        style: create
                     }
-                });
-                vm.labelClasses = angular.copy(vm.classify);
-                vm.labelClasses.push('more');
-                angular.extend(vm, {
-                    legend: {
-                        position: vm.legendPos,
-                        colors: vm.colors,
-                        labels: vm.labelClasses
-                    }
-                });
-                var center = turf.center(response.data);
-                angular.extend(vm.center, {
-                    lat: center.geometry.coordinates[1],
-                    lng: center.geometry.coordinates[0],
-                    zoom: 8
-                });
-            }
-
-            function errorCb(response){
-                $log.debug('error');
-                $log.debug(response);
-            }
+                }
+            });
+            vm.labelClasses = angular.copy(vm.classify);
+            vm.labelClasses.push('more');
+            angular.extend(vm, {
+                legend: {
+                    position: vm.legendPos,
+                    colors: vm.colors,
+                    labels: vm.labelClasses
+                }
+            });
+            var center = turf.center(vm.data);
+            angular.extend(vm.center, {
+                lat: center.geometry.coordinates[1],
+                lng: center.geometry.coordinates[0],
+                zoom: 8
+            });
         }
 
         function getColor(d){
@@ -81,10 +72,9 @@
         function create(data){
             return {
                 fillColor: getColor(data.properties[vm.compareVal]),
-                weight: 2,
+                weight: 1,
                 opacity: 1,
-                color: 'white',
-                dashArray: '3',
+                color: '#000',
                 fillOpacity: 1
             };
         }

@@ -13,6 +13,7 @@
             controller: 'O2rChoroplethController',
             controllerAs: 'vm',
             scope: {
+                data: '=',
                 compareVal: '=',
                 classify: '=',
                 colors: '=',

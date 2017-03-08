@@ -9,9 +9,7 @@
     function O2rProportionalSymbolController ($scope, $log, findPolygonCenter){
         var vm = this;
         vm.compareVal = $scope.compareVal;
-        vm.classify = $scope.classify;
         vm.color = $scope.color;
-        vm.colors = $scope.colors;
         vm.showLabel = $scope.showLabel;
         vm.legendPos = $scope.legendPos;
         vm.data = $scope.data;
@@ -59,7 +57,7 @@
         function activate(){
             angular.extend(vm.layers.baselayers, {
                 "Group Layer": {
-                    name: 'Group Layer',
+                    name: vm.compareVal,
                     type: "group",
                     visible: true,
                     layerOptions: {
@@ -79,7 +77,7 @@
                                 layerParams: {}
                             },
                             {
-                                name:vm.compareVal,
+                                name: vm.compareVal,
                                 type: 'geoJSONShape',
                                 data: findPolygonCenter.createMarkers(findPolygonCenter.center(vm.data)),
                                 visible: true,
@@ -96,11 +94,9 @@
            
             var center = turf.center(vm.data);
             angular.extend(vm.center, {
-                
-                    lat: center.geometry.coordinates[1],
-                    lng: center.geometry.coordinates[0],
-                    zoom: 8
-                
+                lat: center.geometry.coordinates[1],
+                lng: center.geometry.coordinates[0],
+                zoom: 8
             });
         }
 
@@ -108,7 +104,7 @@
             return L.circleMarker(latlng, {
                 radius: 0.15 * (feature.properties[vm.compareVal]),
                 fillColor: vm.color,
-                color: vm.color,
+                color: '#000',
                 weight: 1,
                 opacity: 1,
                 fillOpacity: 1

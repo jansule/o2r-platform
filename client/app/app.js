@@ -10,6 +10,7 @@
             "starter.o2rChoropleth",
             "starter.o2rProportionalSymbol",
             "starter.o2rChoroProp",
+            "starter.o2rMapHelper",
             "treeControl",
             "hljs",
             "ui.router", 

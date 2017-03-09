@@ -1,12 +1,18 @@
 {
-    "scale-of-measurement": "intervall",
-    "value-to-display": "beschPro",
-    "additionalInfo": {
+    "value-to-display": {
+       "value": "beschPro",
+       "data-type": "integer",
+       "scale-of-measurement": "interval"
+    },
+    "additional-info": {
         "label": {
-            "displayed": false
+            "displayed": true,
+            "data-type": "string",
+            "displayed-value": "GEN"
         },
         "table": {
-            "displayed": false
+            "displayed": false,
+            "displayed-value": []
         }
     },
     "maptype": {

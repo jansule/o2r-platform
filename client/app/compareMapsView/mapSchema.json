@@ -74,12 +74,16 @@
                         },
                         "title": {
                             "type": "string"
+                        },
+                        "position": {
+                            "type": "string",
+                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
                         }
                     }
                 }
             }
         },
-        "additionalInfo": {
+        "additional-info": {
             "type": "object",
             "properties": {
                 "label": {
@@ -89,9 +93,8 @@
                             "type": "boolean",
                             "description": "true if labels are displayed"
                         },
-                        "dataType": {
-                            "type": "object",
-                            "enum": ["String", "Integer", "Float", "Double"]
+                        "data-type": {
+                            "$ref": "#/definitions/data-type"
                         },
                         "display-value": {
                             "type": "boolean",
@@ -116,6 +119,24 @@
                     "required": ["displayed"]
                 }
             }
+        },
+        "value-to-dispay": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string"
+                },
+                "data-type": {
+                    "$ref": "#/definitions/data-type"
+                },
+                "scale-of-measurement": {
+                    "type": "string"
+                }
+            }
+        },
+        "data-type": {
+            "type": "string",
+            "enum": ["string", "integer", "float", "double"]
         }
     },
     "properties": {
@@ -126,13 +147,10 @@
                 {"$ref": "#/definitions/proportionalSymbol"}
             ]
         },
-        "scale-of-measurement": {
-            "type": "string"
-        },
         "value-to-display": {
-            "type": "string"
+            "$ref": "#/definitions/value-to-display"
         },
-        "additionalInfo": {
+        "additional-info": {
             "$ref": "#/definitions/additionalInfo"
         },
         "raw": {
@@ -142,7 +160,6 @@
     },
     "required": [
         "maptype",
-        "scale-of-measurement",
         "value-to-display",
         "additionalInfo",
         "raw"

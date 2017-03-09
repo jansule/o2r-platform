@@ -14,14 +14,7 @@
             controllerAs: 'vm',
             scope: {
                 choroData: '=',
-                choroCompareVal: '=',
-                choroClassify: '=',
-                choroColors: '=',
-                choroShowLabel: '=',
-                propData: '=',
-                propCompareVal: '=',
-                propColor: '=',
-                propShowLabel: '='
+                propData: '='
             },
             link: link
         };

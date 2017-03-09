@@ -187,7 +187,8 @@
                 controller: 'CompareMapsController',
                 controllerAs: 'vm',
                 resolve: {
-                    data: compareMapsService
+                    map1: getFirstMapService,
+                    map2: getSecondMapService
                 }
             })
             .state('impressum', {
@@ -282,8 +283,13 @@
         return metadata.callMetadata_search(term);
     }
 
-    compareMapsService.$inject = ['$http'];
-    function compareMapsService($http){
-        return $http.get('app/compareMapsView/kreise_hessen.json');
+    getFirstMapService.$inject = ['$http'];
+    function getFirstMapService($http){
+        return $http.get('app/compareMapsView/example-choropleth.json');
+    }
+
+    getSecondMapService.$inject = ['$http'];
+    function getSecondMapService($http){
+        return $http.get('app/compareMapsView/example-proportionalSymbol.json')
     }
 })();  

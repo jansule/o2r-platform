@@ -13,24 +13,13 @@
             controller: 'O2rChoroplethController',
             controllerAs: 'vm',
             scope: {
-                data: '=',
-                compareVal: '=',
-                classify: '=',
-                colors: '=',
-                showLabel: '=',
-                legendPos: '='
+                choroData: '='
             },
             link: link
         };
 
         function link(scope, iElement, attrs){
-            console.log(scope);
-            if(!attrs.hasOwnProperty('showLabel')){
-                scope.showLabel = null;
-            }
-            if(!attrs.hasOwnProperty('legendPos')){
-                scope.legendPos = null;
-            }
+        
         }
     }
 })();

@@ -13,25 +13,12 @@
             controller: 'O2rProportionalSymbolController',
             controllerAs: 'vm',
             scope: {
-                compareVal: '=',
-                classify: '=',
-                color: '=',
-                colors: '=',
-                showLabel: '=',
-                legendPos: '=',
-                data: '='
+                propData: '='
             },
             link: link
         };
 
         function link(scope, iElement, attrs){
-            console.log(scope);
-            if(!attrs.hasOwnProperty('showLabel')){
-                scope.showLabel = null;
-            }
-            if(!attrs.hasOwnProperty('legendPos')){
-                scope.legendPos = null;
-            }
             
         }
     }

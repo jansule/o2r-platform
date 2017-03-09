@@ -14,6 +14,12 @@
                 "number-of-classes": {
                     "type": "integer"
                 },
+                "classes": {
+                    "type": "array",
+                    "items": {
+                        "type": ["number"]
+                    }
+                },
                 "colors": {
                     "type": "array",
                     "items": {
@@ -40,7 +46,7 @@
                     "required": ["display-min", "display-max", "title", "position"]
                 }
             },
-            "required": ["type", "number-of-classes", "colors", "legend"]
+            "required": ["type", "number-of-classes", "classes", "colors", "legend"]
         },
         "proportionalSymbol": {
             "type": "object",

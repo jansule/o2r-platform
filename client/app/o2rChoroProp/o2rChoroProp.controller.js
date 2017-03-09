@@ -5,18 +5,11 @@
         .module('starter.o2rChoroProp')
         .controller('O2rChoroPropController', O2rChoroPropController);
     
-    O2rChoroPropController.$inject = ['$scope', '$log', 'findPolygonCenter'];
-    function O2rChoroPropController($scope, $log, findPolygonCenter){
+    O2rChoroPropController.$inject = ['$scope', '$log', '$timeout', 'findPolygonCenter'];
+    function O2rChoroPropController($scope, $log, $timeout, findPolygonCenter){
         var vm = this;
-        vm.choroData        = $scope.choroData;
-        vm.choroCompareVal  = $scope.choroCompareVal;
-        vm.choroClassify    = $scope.choroClassify;
-        vm.choroColors      = $scope.choroColors;
-        vm.choroShowLabel   = $scope.choroShowLabel;
-        vm.propData         = $scope.propData;
-        vm.propCompareVal   = $scope.propCompareVal;
-        vm.propColor        = $scope.propColor;
-        vm.propShowLabel    = $scope.propShowLabel;
+        vm.choroData = $scope.choroData;
+        vm.propData = $scope.propData;
 
         angular.extend(vm, {
             center: {},
@@ -36,9 +29,9 @@
         function activate(){
             angular.extend(vm.layers.overlays, {
                 "Choropleth": {
-                    name: vm.choroCompareVal,
+                    name: vm.choroData['value-to-display'].value,
                     type: 'geoJSONShape',
-                    data: vm.choroData,
+                    data: vm.choroData.raw,
                     visible: true,
                     layerOptions: {
                         style: createChoropleth
@@ -47,7 +40,7 @@
             });
             angular.extend(vm.layers.overlays, {
                 "Proportional Symbol": {
-                    name: vm.propCompareVal,
+                    name: vm.propData['value-to-display'].value,
                     type: 'group',
                     visible: true,
                     layerOptions: {
@@ -55,7 +48,7 @@
                             {
                                 name: 'BaseShape',
                                 type: 'geoJSONShape',
-                                data: vm.propData,
+                                data: vm.propData.raw,
                                 visible: true,
                                 layerOptions: {
                                     color: '#000',
@@ -66,9 +59,9 @@
                                 },
                                 layerParams: {}
                             }, {
-                                name: vm.propCompareVal,
+                                name: vm.propData['value-to-display'].value,
                                 type: 'geoJSONShape',
-                                data: findPolygonCenter.createMarkers(findPolygonCenter.center(vm.propData)),
+                                data: findPolygonCenter.createMarkers(findPolygonCenter.center(vm.propData.raw)),
                                 visible: true,
                                 layerOptions: {
                                     pointToLayer: createProportional
@@ -80,7 +73,7 @@
                 }
             });
 
-            var center = turf.center(vm.choroData);
+            var center = turf.center(vm.choroData.raw);
             angular.extend(vm.center, {
                 lat: center.geometry.coordinates[1],
                 lng: center.geometry.coordinates[0],
@@ -90,8 +83,8 @@
 
         function createProportional(feature, latlng){
             return L.circleMarker(latlng, {
-                radius: 0.15 * (feature.properties[vm.propCompareVal]),
-                fillColor: vm.propColor,
+                radius: 0.15 * (feature.properties[vm.propData['value-to-display'].value]),
+                fillColor: vm.propData.maptype.color,
                 color: '#000',
                 weight: 1,
                 opacity: 1,
@@ -101,7 +94,7 @@
 
         function createChoropleth(data){
             return {
-                fillColor: getColor(data.properties[vm.choroCompareVal]),
+                fillColor: getColor(data.properties[vm.choroData['value-to-display'].value]),
                 weight: 1,
                 opacity: 1,
                 color: '#000',
@@ -113,10 +106,10 @@
             var i = 0;
             var noColorSelected = true;
             while(noColorSelected){
-                if(i <= vm.choroClassify.length && d > vm.choroClassify[i]) i++;
+                if(i <= vm.choroData.maptype['number-of-classes'] && d > vm.choroData.maptype.classes[i]) i++;
                 else noColorSelected = false;
             }
-            return vm.choroColors[i];
+            return vm.choroData.maptype.colors[i];
         }
     }
 })();

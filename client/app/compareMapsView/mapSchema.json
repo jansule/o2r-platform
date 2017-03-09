@@ -36,9 +36,11 @@
                             "type": "string",
                             "enum": ["topleft", "topright", "bottomleft", "bottomright"]
                         }
-                    }
+                    },
+                    "required": ["display-min", "display-max", "title", "position"]
                 }
-            }
+            },
+            "required": ["type", "number-of-classes", "colors", "legend"]
         },
         "proportionalSymbol": {
             "type": "object",
@@ -79,9 +81,11 @@
                             "type": "string",
                             "enum": ["topleft", "topright", "bottomleft", "bottomright"]
                         }
-                    }
+                    },
+                    "required": ["number-of-symbols", "display-max-size", "display-min-size", "display-max", "display-min", "title", "position"]
                 }
-            }
+            },
+            "required": ["type", "color", "symboltype", "legend"]
         },
         "additional-info": {
             "type": "object",
@@ -101,7 +105,7 @@
                             "description": "name of attribute, that is displayed"
                         }
                     },
-                    "required": ["displayed"]
+                    "required": ["displayed", "data-type", "display-value"]
                 },
                 "table": {
                     "type": "object",
@@ -116,9 +120,10 @@
                             }
                         }   
                     },
-                    "required": ["displayed"]
+                    "required": ["displayed", "displayed-value"]
                 }
-            }
+            },
+            "required": ["label", "table"]
         },
         "value-to-display": {
             "type": "object",
@@ -132,7 +137,8 @@
                 "scale-of-measurement": {
                     "type": "string"
                 }
-            }
+            },
+            "required": ["value", "data-type", "scale-of-measurement"]
         },
         "data-type": {
             "type": "string",

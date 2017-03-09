@@ -97,8 +97,8 @@
                             "$ref": "#/definitions/data-type"
                         },
                         "display-value": {
-                            "type": "boolean",
-                            "description": "true if values of symbols are displayed"
+                            "type": "string",
+                            "description": "name of attribute, that is displayed"
                         }
                     },
                     "required": ["displayed"]
@@ -120,7 +120,7 @@
                 }
             }
         },
-        "value-to-dispay": {
+        "value-to-display": {
             "type": "object",
             "properties": {
                 "value": {
@@ -151,7 +151,7 @@
             "$ref": "#/definitions/value-to-display"
         },
         "additional-info": {
-            "$ref": "#/definitions/additionalInfo"
+            "$ref": "#/definitions/additional-info"
         },
         "raw": {
             "type": "object",
@@ -161,7 +161,7 @@
     "required": [
         "maptype",
         "value-to-display",
-        "additionalInfo",
+        "additional-info",
         "raw"
     ]
 }

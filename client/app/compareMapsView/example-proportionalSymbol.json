@@ -2,7 +2,15 @@
     "value-to-display": {
         "value": "betriebe",
         "data-type": "integer",
-        "scale-of-measurement": "interval"
+        "scale-of-measurement": "interval",
+        "min": {
+            "value": 16,
+            "name": "Offenbach am Main"
+        },
+        "max": {
+            "value": 117,
+            "name": "Darmstadt"
+        }
     },
     "additional-info": {
         "label": {

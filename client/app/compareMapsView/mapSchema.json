@@ -142,9 +142,33 @@
                 },
                 "scale-of-measurement": {
                     "type": "string"
+                },
+                "min": {
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": ["number", "string"]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["value", "name"]
+                },
+                "max": {
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": ["number", "string"]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["value", "name"]
                 }
             },
-            "required": ["value", "data-type", "scale-of-measurement"]
+            "required": ["value", "data-type", "scale-of-measurement", "min", "max"]
         },
         "data-type": {
             "type": "string",

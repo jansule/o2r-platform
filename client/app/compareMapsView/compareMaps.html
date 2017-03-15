@@ -1,27 +1,29 @@
-<div layout="row" ng-if="true">
-    <o2r-choropleth 
-        flex="100"
-        choro-data="vm.map1"></o2r-choropleth>
-    <o2r-choropleth 
-        ng-if="false"
-        flex-offset="5" 
-        flex="100" 
-        data="vm.data"
-        compare-val="vm.test2" 
-        classify="vm.class2" 
-        colors="vm.colors2"
-        show-label="vm.test2"
-        legend-pos="'bottomleft'"></o2r-choropleth>
-</div>
-<div layout="row" style="margin-top: 10%;" ng-if="true">
-    <o2r-proportional-symbol 
-        flex-offset="5" 
-        flex="100" 
-        prop-data="vm.map2"></o2r-proportional-symbol>
-</div>
-<div layout="row" style="margin-top: 10%;" ng-if="true">
-    <o2r-choro-prop 
-        flex="100" 
-        choro-data="vm.map1" 
-        prop-data="vm.map2" ></o2r-choro-prop>
+<div layout="column" ng-repeat="map in vm.maps track by $index" flex="100">
+    <div layout="row" id="view{{$index}}">
+        <md-button ng-repeat="elm in vm.maps track by $index" ng-click="vm.gotoAnchor($index)" >{{$index}}</md-button>
+    </div>
+    <div layout="column" flex="100">
+        <div layout="row" ng-if="vm.checkDisplay(map, 'choropleth', 'choropleth')" flex="100">
+            <o2r-choropleth choro-data="map.m1" flex="50"></o2r-choropleth>
+            <o2r-choropleth choro-data="map.m2" flex="50"></o2r-choropleth>
+        </div>
+        <div layout="column" ng-if="vm.checkDisplay(map, 'choropleth', 'proportionalSymbol')" flex="100">
+            <div layout="row" flex="100">
+                <o2r-choropleth choro-data="map.m1" flex="50"></o2r-choropleth>
+                <o2r-proportional-symbol prop-data="map.m2" flex="50"></o2r-proportional-symbol>
+            </div>
+            <o2r-choro-prop choro-data="map.m1" prop-data="map.m2" flex="100"></o2r-choro-prop>
+        </div>
+        <div layout="column" ng-if="vm.checkDisplay(map, 'proportionalSymbol', 'choropleth')" flex="100">
+            <div layout="row" flex="100">
+                <o2r-proportional-symbol prop-data="map.m1" flex="50"></o2r-proportional-symbol>
+                <o2r-choropleth choro-data="map.m2" flex="50"></o2r-choropleth>
+            </div>
+            <o2r-choro-prop choro-data="map.m2" prop-data="map.m1" flex="100"></o2r-choro-prop>
+        </div>
+        <div layout="row" ng-if="vm.checkDisplay(map, 'proportionalSymbol', 'proportionalSymbol')" flex="100">
+            <o2r-proportional-symbol prop-data="map.m1" flex="50"></o2r-proportional-symbol>
+            <o2r-proportional-symbol prop-data="map.m2" flex="50"></o2r-proportional-symbol>
+        </div>
+    </div>
 </div>

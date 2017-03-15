@@ -141,7 +141,8 @@
                     "$ref": "#/definitions/data-type"
                 },
                 "scale-of-measurement": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["nominal", "ordinal", "numerical"]
                 },
                 "min": {
                     "type": "object",

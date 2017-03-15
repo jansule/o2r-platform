@@ -2,7 +2,7 @@
     "value-to-display": {
        "value": "beschPro",
        "data-type": "integer",
-       "scale-of-measurement": "interval",
+       "scale-of-measurement": "numerical",
        "min": {
            "value": 4162,
            "name": "Werra-Meissner-Kreis"

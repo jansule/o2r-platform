@@ -8,67 +8,315 @@
     o2rMapComparability.$inject = [];
     function o2rMapComparability(){
         var service = {
-            calculate: calculate
+            compare: compare
+        };
+
+        var choroplethDummy = {
+            'value-to-display': {
+                'value': null,
+                'data-type': null,
+                'scale-of-measurement': null
+            },
+            'additional-info': {
+                label: {
+                    displayed: null,
+                    'data-type': null,
+                    'display-value': null
+                },
+                table: {
+                    displayed: null,
+                    'displayed-value': []
+                }
+            },
+            raw: {},
+            maptype: {
+                type: 'choropleth',
+                'number-of-classes': null,
+                colors: [],
+                classes: [],
+                legend: {
+                    'display-min': null,
+                    'display-max': null,
+                    title: null,
+                    position: null
+                }
+            }
+        };
+        var proportionalSymbolDummy = {
+            'value-to-display': {
+                'value': null,
+                'data-type': null,
+                'scale-of-measurement': null
+            },
+            'additional-info': {
+                label: {
+                    displayed: null,
+                    'data-type': null,
+                    'display-value': null
+                },
+                table: {
+                    displayed: null,
+                    'displayed-value': []
+                }
+            },
+            raw: {},
+            maptype: {
+                type: 'proportionalSymbol',
+                color: null,
+                symboltype: null,
+                legend: {
+                    'number-of-symbols': null,
+                    'display-max-size': null,
+                    'display-min-size': null,
+                    'display-max': null,
+                    'display-min': null,
+                    title: null
+                }
+            }
         };
 
         return service;
 
         /////////////////
 
-        function calculate(map1, map2){
-            /*
-            var result = {};
-            result.maptype = _rateMaptype(map1.maptype, map2.maptype);
-            result.symboltype = {};
-            result.symboltype.map1 = _ratePropSymbol(map1.maptype, map1.symboltype);
-            result.symboltype.map2 = _ratePropSymbol(map2.maptype, map2.symboltype);
+        function compare(m1, m2){
+            var result = [];
+            var original = {};
+            original.m1 = m1;
+            original.m2 = m2;
+            result.push(original);
+            if((m1.maptype.type == 'choropleth' && m2.maptype.type == 'proportionalSymbol') || (m1.maptype.type == 'proportionalSymbol' && m2.maptype.type == 'choropleth')){
+                var first = {};
+                first.m1 = _rateAndImprove(m1, false);
+                first.m2 = _rateAndImprove(m2, false);
+                result.push(first);
+                if((m1.maptype.type == 'choropleth') && (_checkScaleType('choropleth', m2['value-to-display']['scale-of-measurement']) == true)){
+                    var second = {};
+                    second.m1 = _rateAndImprove(m1, false);
+                    second.m2 = _transformAndImprove(m2, 'choropleth', false);
+                    result.push(second);
+                } else if((m2.maptype.type == 'choropleth') && (_checkScaleType('choropleth', m1['value-to-display']['scale-of-measurement']) == true)){
+                    second.m1 = _transformAndImprove(m1, 'choropleth', false);
+                    second.m2 = _rateAndImprove(m2, false);
+                    result.push(second);
+                }
+            }
+            if(m1.maptype.type == 'choropleth' && m2.maptype.type == 'choropleth'){
+                var first = {};
+                first.m1 = _rateAndImprove(m1, false);
+                first.m2 = _rateAndImprove(m2, false);
+                result.push(first);
+
+                var canTransFst = _checkScaleType('proportionalSymbol', m1['value-to-display']['scale-of-measurement']);
+                var canTransSnd = _checkScaleType('proportionalSymbol', m2['value-to-display']['scale-of-measurement']);
+                if(canTransFst){
+                    var second = {};
+                    second.m1 = _transformAndImprove(m1, 'proportionalSymbol', false);
+                    second.m2 = _rateAndImprove(m2, false);
+                    result.push(second);
+                    if(canTransSnd){
+                        var third = {};
+                        third.m1 = _rateAndImprove(m1, false);
+                        third.m2 = _transformAndImprove(m2, 'proportionalSymbol', false);
+                        result.push(third);
+                    }
+                }
+                if(canTransSnd && !canTransFst){
+                    var second = {};
+                    second.m1 = _rateAndImprove(m1, false);
+                    second.m2 = _transformAndImprove(m2, 'proportionalSymbol', false);
+                    result.push(second);
+                }
+            }
+            if(m1.maptype.type == 'proportionalSymbol' && m2.maptype.type == 'proportionalSymbol'){
+                var first = {};
+                first.m1 = _rateAndImprove(m1, false);
+                first.m2 = _rateAndImprove(m2, false);
+                result.push(first);
+
+                var canTransFst = _checkScaleType('choropleth', m1['value-to-display']['scale-of-measurement']);
+                var canTransSnd = _checkScaleType('choropleth', m2['value-to-display']['scale-of-measurement']);
+
+                if(canTransFst){
+                    var second = {};
+                    second.m1 = _transformAndImprove(m1, 'choropleth', false);
+                    second.m2 = _rateAndImprove(m2, false);
+                    result.push(second);
+                    if(canTransSnd){
+                        var third = {};
+                        third.m1 = _rateAndImprove(m1, false);
+                        third.m2 = _transformAndImprove(m2, 'choropleth', false);
+                        result.push(third);
+
+                        var fourth = {};
+                        fourth.m1 = _transformAndImprove(m1, 'choropleth', false);
+                        fourth.m2 = _transformAndImprove(m2, 'choropleth', false);
+                        result.push(fourth);
+                    }
+                }
+                if(canTransSnd && !canTransFst){
+                    var second = {};
+                    second.m1 = _rateAndImprove(m1, false);
+                    second.m2 = _transformAndImprove(m2, 'choropleth', false);
+                    result.push(second);
+                }
+            }
             return result;
+        }
+
+        function _rateAndImprove(map, showlabel){
+            var result = angular.copy(map);
+            if(map.maptype.type == 'proportionalSymbol'){
+                if(map.maptype.legend['display-min-size'] = false) result.maptype.legend['display-min-size'] = true;
+                if(map.maptype.legend['display-max-size'] = false) result.maptype.legend['display-max-size'] = true;
+                if(map.maptype.symboltype == 'other') result.maptype.symboltype == 'circle';
+            }
+            if(map['additional-info'].table.displayed == false){
+                result['additional-info'].table.displayed = true;
+                result['additional-info'].table['displayed-value'].push(result['value-to-display'].value);
+            }
+            if(map['additional-info'].label.displayed == false){
+                result['additional-info'].label.displayed = showlabel;
+                result['additional-info'].label['display-value'] = result['value-to-display'].value;
+            }
+            if(map.maptype.legend['display-min'] == false) result.maptype.legend['display-min'] = true;
+            if(map.maptype.legend['display-max'] == false) result.maptype.legend['display-max'] = true;
+            return result;
+        }
+
+        function _transformAndImprove(map, maptype, showlabel){
+            var result;
+            if(maptype == 'choropleth') {
+                result = angular.copy(choroplethDummy);
+                result['value-to-display'].value = map['value-to-display'].value;
+                result['value-to-display']['data-type'] = map['value-to-display']['data-type'];
+                result['value-to-display']['scale-of-measurement'] = map['value-to-display']['scale-of-measurement'];
+                
+                result['additional-info'].label.displayed = showlabel;
+                result['additional-info'].label['data-type'] = map['additional-info'].label['data-type'] || map['value-to-display']['data-type'];
+                result['additional-info'].label['display-value'] = map['additional-info'].label['display-value'] || map['value-to-display'].value;
+
+                result['additional-info'].table.displayed = true;
+                if(map['additional-info'].table['displayed-value'].length != 0){
+                    for(var i in map['additional-info'].table['displayed-value']){
+                        result['additional-info'].table['displayed-value'].push(map['additional-info'].table['displayed-value'][i]);
+                    }
+                } else {
+                    result['additional-info'].table['displayed-value'].push(map['value-to-display'].value);
+                }
+
+                result.maptype.type = 'choropleth';
+                result.maptype['number-of-classes'] = 5;
+                result.maptype.colors = _getColorRange(map.maptype.color, result.maptype['number-of-classes']);
+                result.maptype.classes = _createClasses(map['value-to-display'].max.value, 5, map['value-to-display']['scale-of-measurement']);
+                result.maptype.legend['display-min'] = true;
+                result.maptype.legend['display-max'] = true;
+                result.maptype.legend.title = map.maptype.legend.title;
+                result.maptype.legend.position = map.maptype.legend.position;
+
+                result.raw = map.raw;
+            }
+            if(maptype == 'proportionalSymbol'){
+                result = angular.copy(proportionalSymbolDummy);
+                result['value-to-display'].value = map['value-to-display'].value;
+                result['value-to-display']['data-type'] = map['value-to-display']['data-type'];
+                result['value-to-display']['scale-of-measurement'] = map['value-to-display']['scale-of-measurement'];
+                
+                result['additional-info'].label.displayed = showlabel;
+                result['additional-info'].label['data-type'] = map['additional-info'].label['data-type'] || map['value-to-display']['data-type'];
+                result['additional-info'].label['display-value'] = map['additional-info'].label['display-value'] || map['value-to-display'].value;
+
+                result['additional-info'].table.displayed = true;
+                if(map['additional-info'].table['displayed-value'].length != 0){
+                    for(var i in map['additional-info'].table['displayed-value']){
+                        result['additional-info'].table['displayed-value'].push(map['additional-info'].table['displayed-value'][i]);
+                    }
+                } else {
+                    result['additional-info'].table['displayed-value'].push(map['value-to-display'].value);
+                }
+
+                result.maptype.type = 'proportionalSymbol';
+                result.maptype.color = _getMiddleColor(map.maptype.colors);
+                result.maptype.symboltype = 'circle';
+                result.maptype.legend['number-of-symbols'] = 4;
+                result.maptype.legend['display-max-size'] = true;
+                result.maptype.legend['display-min-size'] = true;
+                result.maptype.legend['display-max'] = true;
+                result.maptype.legend['display-min'] = true;
+                result.maptype.legend.title = map.maptype.legend.title;
+                result.maptype.legend.position = map.maptype.legend.position;
+
+                result.raw = map.raw;
+            } 
+            return result;
+        }
+
+
+
+
+        function _getColorRange(color, classes){
+            /*TODO
+                rewrite function so that colors will be calculated depending on color value
             */
+            var result;
+            if(classes == 4) result = ['#f1eef6', '#bdc9e1', '#74a9cf', '#0570b0'];
+            if(classes == 5) result = ['#FFEDA0', '#FC4E2A', '#E31A1C', '#BD0026','#800026'];
+            return result;
         }
 
-        /**
-         * 
-         * @param {String} type1 Maptype of first map  
-         * @param {String} type2 Maptype of second map
-         */
-        /*
-        function _rateMaptype(type1, type2){
-            if(type1 == 'choropleth' && type2 == 'choropleth') return {type1: type1, type2: type2, result: '++'};
-            if((type1 == 'choropleth' && type2 == 'proportionalSymbol')||
-                (type1 == 'proportionalSymbol' && type2 == 'choropleth')) return {type1: type1, type2: type2, result: '+'};
-            if(type1 == 'proportionalSymbol' && type2 == 'proportionalSymbol') return {type1: type1, type2: type2, result: '--'};
-            return {type1: type1, type2: type2, result: '0'};
+        function _getMiddleColor(colors){
+            var result = colors[Math.floor(colors.length/2)];
+            return result;
         }
 
-        /**
-         * 
-         * @param {String} symboltype Symboltype of map
-         */
-        /*
-        function _rateSingleSymbol(symboltype){
-            if(symboltype == 'circle') return {result: '+'};
-            if(symboltype == 'stackedSquare') return {result: '++'};
-            return {result: '0', symboltype: symboltype};
-        }
-
-        function _rateSymbol(maptype1, symboltype1, maptype2, symboltype2){
-            /*
-            if(maptype1 == 'choropleth' && maptype2 == 'choropleth'){
-                return {};
+        function _createClasses(max, classes, scale){
+            var result = [];
+            var interval = max/classes;
+            for(var i=1; i<=classes; i++){
+                if(scale == 'numerical'){
+                    result.push(Math.ceil(interval * i));
+                } else {
+                    result.push(interval * i);
+                }
             }
-            if((maptype1 == 'choropleth' && maptype2 == 'proportionalSymbol') ||
-                (maptype1 == 'proportionalSymbol' && maptype2 == 'choropleth')){
-
-            }
-            if(maptype1 == 'proportionalSymbol' && maptype2 == 'proportionalSymbol'){
-
-            }
-            */
-            /*
-            var map1 = _rateSingleSymbol(symboltype1);
-            var map2 = _rateSingleSymbol(symboltype2);
-            if(map1.result && )
+            return result;
         }
-        */
+
+
+        function _checkScaleType(transformTo, scaletype){
+            var hue = {};
+            hue.numerical = true;
+            hue.ordinal = true;
+            hue.nominal = false;
+
+            var color = {};
+            color.numerical = false;
+            color.ordinal = null;
+            color.nominal = true;
+            
+            var size = {};
+            size.numerical = true;
+            size.ordinal = true;
+            size.nominal = false;
+
+            var shape = {};
+            shape.numerical = false;
+            shape.ordinal = false;
+            shape.nominal = true;
+
+            var orientation = {};
+            orientation.numerical = null;
+            orientation.ordinal = null;
+            orientation.nominal = null;
+
+            var arrangement = {};
+            arrangement.numerical = null;
+            arrangement.ordinal = null;
+            arrangement.nominal = true;
+
+            if((transformTo === 'choropleth') && (hue[scaletype] == true)) return true;
+            if((transformTo === 'proportionalSymbol') && (size[scaletype] == true)) return true;
+            return false;
+        }
     }
 })();

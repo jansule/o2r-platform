@@ -12,6 +12,7 @@
             "starter.o2rChoroProp",
             "starter.o2rMapHelper",
             "starter.o2rMapComparability",
+            "starter.o2rMapTable",
             "treeControl",
             "hljs",
             "ui.router", 

@@ -4,26 +4,58 @@
     </div>
     <div layout="column" flex="100">
         <div layout="row" ng-if="vm.checkDisplay(map, 'choropleth', 'choropleth')" flex="100">
-            <o2r-choropleth choro-data="map.m1" flex="50"></o2r-choropleth>
-            <o2r-choropleth choro-data="map.m2" flex="50"></o2r-choropleth>
+            <div layout="row" flex="50">
+                <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                <o2r-choropleth choro-data="map.m1" flex="80"></o2r-choropleth>
+            </div>
+            <div layout="row" flex="50">
+                <o2r-choropleth choro-data="map.m2" flex="80"></o2r-choropleth>
+                <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+            </div>            
         </div>
         <div layout="column" ng-if="vm.checkDisplay(map, 'choropleth', 'proportionalSymbol')" flex="100">
             <div layout="row" flex="100">
-                <o2r-choropleth choro-data="map.m1" flex="50"></o2r-choropleth>
-                <o2r-proportional-symbol prop-data="map.m2" flex="50"></o2r-proportional-symbol>
+                <div layout="row" flex="50">
+                    <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                    <o2r-choropleth choro-data="map.m1" flex="80"></o2r-choropleth>
+                </div>
+                <div layout="row" flex="50">
+                    <o2r-proportional-symbol prop-data="map.m2" flex="80"></o2r-proportional-symbol>
+                    <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+                </div>
             </div>
-            <o2r-choro-prop choro-data="map.m1" prop-data="map.m2" flex="100"></o2r-choro-prop>
+            <div layout="row" flex="100">
+                <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                <o2r-choro-prop choro-data="map.m1" prop-data="map.m2" flex="80"></o2r-choro-prop>
+                <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+            </div>
         </div>
         <div layout="column" ng-if="vm.checkDisplay(map, 'proportionalSymbol', 'choropleth')" flex="100">
             <div layout="row" flex="100">
-                <o2r-proportional-symbol prop-data="map.m1" flex="50"></o2r-proportional-symbol>
-                <o2r-choropleth choro-data="map.m2" flex="50"></o2r-choropleth>
+                <div layout="row" flex="100">
+                    <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                    <o2r-proportional-symbol prop-data="map.m1" flex="80"></o2r-proportional-symbol>
+                </div>
+                <div layout="row" flex="100">
+                    <o2r-choropleth choro-data="map.m2" flex="80"></o2r-choropleth>
+                    <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+                </div>
             </div>
-            <o2r-choro-prop choro-data="map.m2" prop-data="map.m1" flex="100"></o2r-choro-prop>
+            <div layout="row" flex="100">
+                <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                <o2r-choro-prop choro-data="map.m2" prop-data="map.m1" flex="80"></o2r-choro-prop>
+                <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+            </div>
         </div>
         <div layout="row" ng-if="vm.checkDisplay(map, 'proportionalSymbol', 'proportionalSymbol')" flex="100">
-            <o2r-proportional-symbol prop-data="map.m1" flex="50"></o2r-proportional-symbol>
-            <o2r-proportional-symbol prop-data="map.m2" flex="50"></o2r-proportional-symbol>
+            <div layout="row" flex="50">
+                <o2r-map-table ng-if="map.m1['additional-info'].table.displayed" table-data="map.m1"></o2r-map-table>
+                <o2r-proportional-symbol prop-data="map.m1" flex="80"></o2r-proportional-symbol>
+            </div>
+            <div layout="row" flex="50">
+                <o2r-proportional-symbol prop-data="map.m2" flex="80"></o2r-proportional-symbol>
+                <o2r-map-table ng-if="map.m2['additional-info'].table.displayed" table-data="map.m2"></o2r-map-table>
+            </div>
         </div>
     </div>
 </div>

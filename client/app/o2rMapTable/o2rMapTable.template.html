@@ -1,0 +1,8 @@
+<table>
+    <th>
+        <td ng-repeat="tab in vm.data['additional-info'].table['displayed-value']">{{tab}}</td>
+    </th>
+    <tr ng-repeat="val in vm.data.raw.features">
+        <td ng-repeat="tab in vm.data['additional-info'].table['displayed-value']">{{val.properties[tab]}}</td>
+    </tr>
+</table>

@@ -284,15 +284,15 @@
 
 
         function _checkScaleType(transformTo, scaletype){
-            var hue = {};
-            hue.numerical = true;
-            hue.ordinal = true;
-            hue.nominal = false;
+            var value = {};
+            value.numerical = true;
+            value.ordinal = true;
+            value.nominal = false;
 
-            var color = {};
-            color.numerical = false;
-            color.ordinal = null;
-            color.nominal = true;
+            var hue = {};
+            hue.numerical = false;
+            hue.ordinal = null;
+            hue.nominal = true;
             
             var size = {};
             size.numerical = true;
@@ -314,7 +314,7 @@
             arrangement.ordinal = null;
             arrangement.nominal = true;
 
-            if((transformTo === 'choropleth') && (hue[scaletype] == true)) return true;
+            if((transformTo === 'choropleth') && (value[scaletype] == true)) return true;
             if((transformTo === 'proportionalSymbol') && (size[scaletype] == true)) return true;
             return false;
         }

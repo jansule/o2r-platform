@@ -12,66 +12,100 @@
         };
 
         var choroplethDummy = {
-            'value-to-display': {
-                'value': null,
-                'data-type': null,
-                'scale-of-measurement': null
+            'Property': {
+                'PropertyName': null,
+                'DataType': null,
+                'ScaleOfMeasurement': null,
+                'Min': null,
+                'Max': null,
+                'ZoomFactor': null
             },
-            'additional-info': {
-                label: {
-                    displayed: null,
-                    'data-type': null,
-                    'display-value': null
+            'AdditionalInfo': {
+                'Label': {
+                    'Show': null,
+                    'DataType': null,
+                    'PropertyName': null
                 },
-                table: {
-                    displayed: null,
-                    'displayed-value': []
+                'Table': {
+                    'Show': null,
+                    'PropertyNames': []
                 }
             },
-            raw: {},
-            maptype: {
-                type: 'choropleth',
-                'number-of-classes': null,
-                colors: [],
-                classes: [],
-                legend: {
-                    'display-min': null,
-                    'display-max': null,
-                    title: null,
-                    position: null
+            'Raw': {},
+            'ThematicType': {
+                'Type': 'choropleth',
+                'Fill': {
+                    'Fill': [],
+                    'FillOpacity': null
+                },
+                'Classes': {
+                    'Classes': [],
+                    'NrOfClasses': null
+                },
+                'Stroke': {
+                    'Stroke': null,
+                    'StrokeWidth': null
+                },
+                'Legend': {
+                    'ShowMin': null,
+                    'ShowMax': null,
+                    'Title': null,
+                    'Position': null
                 }
             }
         };
         var proportionalSymbolDummy = {
-            'value-to-display': {
-                'value': null,
-                'data-type': null,
-                'scale-of-measurement': null
+            'Property': {
+                'PropertyName': null,
+                'DataType': null,
+                'ScaleOfMeasurement': null,
+                'Min': null,
+                'Max': null,
+                'ZoomFactor': null
             },
-            'additional-info': {
-                label: {
-                    displayed: null,
-                    'data-type': null,
-                    'display-value': null
+            'AdditionalInfo': {
+                'Label': {
+                    'Show': null,
+                    'DataType': null,
+                    'PropertyName': null
                 },
-                table: {
-                    displayed: null,
-                    'displayed-value': []
+                'Table': {
+                    'Show': null,
+                    'PropertyNames': []
                 }
             },
-            raw: {},
-            maptype: {
-                type: 'proportionalSymbol',
-                color: null,
-                symboltype: null,
-                legend: {
-                    'number-of-symbols': null,
-                    'display-max-size': null,
-                    'display-min-size': null,
-                    'display-max': null,
-                    'display-min': null,
-                    title: null
-                }
+            'Raw': {},
+            'ThematicType': {
+                'Type': 'proportionalSymbol',
+                'Fill': {
+                    'Fill': null,
+                    'FillOpacity': null
+                },
+                'Legend': {
+                    'NrOfSymbols': null,
+                    'ShowMaxSize': null,
+                    'ShowMinSize': null,
+                    'ShowMax': null,
+                    'ShowMin': null,
+                    'Title': null,
+                    'Position': null
+                },
+                'Polygon': {
+                    'Fill': {
+                        'Fill': null,
+                        'FillOpacity': null
+                    },
+                    'Stroke': {
+                        'Stroke': null,
+                        'StrokeWidth': null
+                    }
+                },
+                'RadialFactor': null,
+                'Stroke': {
+                    'Stroke': null,
+                    'StrokeWidth': null
+                },
+                'WellKnownName': null
             }
         };
 
@@ -85,30 +119,30 @@
             original.m1 = m1;
             original.m2 = m2;
             result.push(original);
-            if((m1.maptype.type == 'choropleth' && m2.maptype.type == 'proportionalSymbol') || (m1.maptype.type == 'proportionalSymbol' && m2.maptype.type == 'choropleth')){
+            if((m1.ThematicType.Type == 'choropleth' && m2.ThematicType.Type == 'proportionalSymbol') || (m1.ThematicType.Type == 'proportionalSymbol' && m2.ThematicType.Type == 'choropleth')){
                 var first = {};
                 first.m1 = _rateAndImprove(m1, false);
                 first.m2 = _rateAndImprove(m2, false);
                 result.push(first);
-                if((m1.maptype.type == 'choropleth') && (_checkScaleType('choropleth', m2['value-to-display']['scale-of-measurement']) == true)){
+                if((m1.ThematicType.Type == 'choropleth') && (_checkScaleType('choropleth', m2.Property.ScaleOfMeasurement) == true)){
                     var second = {};
                     second.m1 = _rateAndImprove(m1, false);
                     second.m2 = _transformAndImprove(m2, 'choropleth', false);
                     result.push(second);
-                } else if((m2.maptype.type == 'choropleth') && (_checkScaleType('choropleth', m1['value-to-display']['scale-of-measurement']) == true)){
+                } else if((m2.ThematicType.Type == 'choropleth') && (_checkScaleType('choropleth', m1.Property.ScaleOfMeasurement) == true)){
                     second.m1 = _transformAndImprove(m1, 'choropleth', false);
                     second.m2 = _rateAndImprove(m2, false);
                     result.push(second);
                 }
             }
-            if(m1.maptype.type == 'choropleth' && m2.maptype.type == 'choropleth'){
+            if(m1.ThematicType.Type == 'choropleth' && m2.ThematicType.Type == 'choropleth'){
                 var first = {};
                 first.m1 = _rateAndImprove(m1, false);
                 first.m2 = _rateAndImprove(m2, false);
                 result.push(first);
 
-                var canTransFst = _checkScaleType('proportionalSymbol', m1['value-to-display']['scale-of-measurement']);
-                var canTransSnd = _checkScaleType('proportionalSymbol', m2['value-to-display']['scale-of-measurement']);
+                var canTransFst = _checkScaleType('proportionalSymbol', m1.Property.ScaleOfMeasurement);
+                var canTransSnd = _checkScaleType('proportionalSymbol', m2.Property.ScaleOfMeasurement);
                 if(canTransFst){
                     var second = {};
                     second.m1 = _transformAndImprove(m1, 'proportionalSymbol', false);
@@ -128,14 +162,14 @@
                     result.push(second);
                 }
             }
-            if(m1.maptype.type == 'proportionalSymbol' && m2.maptype.type == 'proportionalSymbol'){
+            if(m1.ThematicType.Type == 'proportionalSymbol' && m2.ThematicType.Type == 'proportionalSymbol'){
                 var first = {};
                 first.m1 = _rateAndImprove(m1, false);
                 first.m2 = _rateAndImprove(m2, false);
                 result.push(first);
 
-                var canTransFst = _checkScaleType('choropleth', m1['value-to-display']['scale-of-measurement']);
-                var canTransSnd = _checkScaleType('choropleth', m2['value-to-display']['scale-of-measurement']);
+                var canTransFst = _checkScaleType('choropleth', m1.Property.ScaleOfMeasurement);
+                var canTransSnd = _checkScaleType('choropleth', m2.Property.ScaleOfMeasurement);
 
                 if(canTransFst){
                     var second = {};
@@ -166,21 +200,21 @@
 
         function _rateAndImprove(map, showlabel){
             var result = angular.copy(map);
-            if(map.maptype.type == 'proportionalSymbol'){
-                if(map.maptype.legend['display-min-size'] = false) result.maptype.legend['display-min-size'] = true;
-                if(map.maptype.legend['display-max-size'] = false) result.maptype.legend['display-max-size'] = true;
-                if(map.maptype.symboltype == 'other') result.maptype.symboltype == 'circle';
+            if(map.ThematicType.Type == 'proportionalSymbol'){
+                if(map.ThematicType.Legend.ShowMinSize == false) result.ThematicType.Legend.ShowMinSize = true;
+                if(map.ThematicType.Legend.ShowMaxSize == false) result.ThematicType.Legend.ShowMaxSize = true;
+                if(map.ThematicType.WellKnownName == 'other') result.ThematicType.WellKnownName = 'circle';
             }
-            if(map['additional-info'].table.displayed == false){
-                result['additional-info'].table.displayed = true;
-                result['additional-info'].table['displayed-value'].push(result['value-to-display'].value);
+            if(map.AdditionalInfo.Table.Show == false){
+                result.AdditionalInfo.Table.Show = true;
+                result.AdditionalInfo.Table.PropertyNames.push(result.Property.PropertyName);
             }
-            if(map['additional-info'].label.displayed == false){
-                result['additional-info'].label.displayed = showlabel;
-                result['additional-info'].label['display-value'] = result['value-to-display'].value;
+            if(map.AdditionalInfo.Label.Show == false){
+                result.AdditionalInfo.Label.Show = showlabel;
+                result.AdditionalInfo.Label.PropertyName = result.Property.PropertyName;
             }
-            if(map.maptype.legend['display-min'] == false) result.maptype.legend['display-min'] = true;
-            if(map.maptype.legend['display-max'] == false) result.maptype.legend['display-max'] = true;
+            if(map.ThematicType.Legend.ShowMin == false) result.ThematicType.Legend.ShowMin = true;
+            if(map.ThematicType.Legend.ShowMax == false) result.ThematicType.Legend.ShowMax = true;
             return result;
         }
 
@@ -188,65 +222,82 @@
             var result;
             if(maptype == 'choropleth') {
                 result = angular.copy(choroplethDummy);
-                result['value-to-display'].value = map['value-to-display'].value;
-                result['value-to-display']['data-type'] = map['value-to-display']['data-type'];
-                result['value-to-display']['scale-of-measurement'] = map['value-to-display']['scale-of-measurement'];
-                
-                result['additional-info'].label.displayed = showlabel;
-                result['additional-info'].label['data-type'] = map['additional-info'].label['data-type'] || map['value-to-display']['data-type'];
-                result['additional-info'].label['display-value'] = map['additional-info'].label['display-value'] || map['value-to-display'].value;
+                result.Property.PropertyName = map.Property.PropertyName;
+                result.Property.DataType = map.Property.DataType;
+                result.Property.ScaleOfMeasurement = map.Property.ScaleOfMeasurement;
+                result.Property.Min = map.Property.Min;
+                result.Property.Max = map.Property.Max;
+                result.Property.ZoomFactor = map.Property.ZoomFactor;
 
-                result['additional-info'].table.displayed = true;
-                if(map['additional-info'].table['displayed-value'].length != 0){
-                    for(var i in map['additional-info'].table['displayed-value']){
-                        result['additional-info'].table['displayed-value'].push(map['additional-info'].table['displayed-value'][i]);
+                result.AdditionalInfo.Label.Show = showlabel;
+                result.AdditionalInfo.Label.DataType = map.AdditionalInfo.Label.DataType || map.Property.DataType;
+                result.AdditionalInfo.Label.PropertyName = map.AdditionalInfo.Label.PropertyName || map.Property.PropertyName;
+
+                result.AdditionalInfo.Table.Show = true;
+                if(map.AdditionalInfo.Table.PropertyNames.length != 0){
+                    for(var i in map.AdditionalInfo.Table.PropertyNames){
+                        result.AdditionalInfo.Table.PropertyNames.push(map.AdditionalInfo.Table.PropertyNames[i]);
                     }
                 } else {
-                    result['additional-info'].table['displayed-value'].push(map['value-to-display'].value);
+                    result.AdditionalInfo.Table.PropertyNames.push(map.Property.PropertyName);
                 }
 
-                result.maptype.type = 'choropleth';
-                result.maptype['number-of-classes'] = 5;
-                result.maptype.colors = _getColorRange(map.maptype.color, result.maptype['number-of-classes']);
-                result.maptype.classes = _createClasses(map['value-to-display'].max.value, 5, map['value-to-display']['scale-of-measurement']);
-                result.maptype.legend['display-min'] = true;
-                result.maptype.legend['display-max'] = true;
-                result.maptype.legend.title = map.maptype.legend.title;
-                result.maptype.legend.position = map.maptype.legend.position;
+                result.ThematicType.Type = 'choropleth';
+                result.ThematicType.Classes.NrOfClasses = 5;
+                result.ThematicType.Fill.Fill = _getColorRange(map.ThematicType.Fill.Fill, result.ThematicType.Classes.NrOfClasses);
+                result.ThematicType.Fill.FillOpacity = map.ThematicType.Fill.FillOpacity;
+                result.ThematicType.Stroke.Stroke = map.ThematicType.Polygon.Stroke.Stroke;
+                result.ThematicType.Stroke.StrokeWidth = map.ThematicType.Polygon.Stroke.StrokeWidth;
+                result.ThematicType.Classes.Classes = _createClasses(map.Property.Max, result.ThematicType.Classes.NrOfClasses, map.Property.ScaleOfMeasurement);
+                
+                result.ThematicType.Legend.ShowMin = true;
+                result.ThematicType.Legend.ShowMax = true;
+                result.ThematicType.Legend.Title = map.ThematicType.Legend.Title;
+                result.ThematicType.Legend.Position = map.ThematicType.Legend.Position;
 
-                result.raw = map.raw;
+                result.Raw = map.Raw;
             }
             if(maptype == 'proportionalSymbol'){
                 result = angular.copy(proportionalSymbolDummy);
-                result['value-to-display'].value = map['value-to-display'].value;
-                result['value-to-display']['data-type'] = map['value-to-display']['data-type'];
-                result['value-to-display']['scale-of-measurement'] = map['value-to-display']['scale-of-measurement'];
+                result.Property.PropertyName = map.Property.PropertyName;
+                result.Property.DataType = map.Property.DataType;
+                result.Property.ScaleOfMeasurement = map.Property.ScaleOfMeasurement;
+                result.Property.Min = map.Property.Min;
+                result.Property.Max = map.Property.Max;
+                result.Property.ZoomFactor = map.Property.ZoomFactor;
                 
-                result['additional-info'].label.displayed = showlabel;
-                result['additional-info'].label['data-type'] = map['additional-info'].label['data-type'] || map['value-to-display']['data-type'];
-                result['additional-info'].label['display-value'] = map['additional-info'].label['display-value'] || map['value-to-display'].value;
+                result.AdditionalInfo.Label.Show = showlabel;
+                result.AdditionalInfo.Label.DataType = map.AdditionalInfo.Label.DataType || map.Property.DataType;
+                result.AdditionalInfo.Label.Show = map.AdditionalInfo.Label.Show || map.Property.PropertyName;
 
-                result['additional-info'].table.displayed = true;
-                if(map['additional-info'].table['displayed-value'].length != 0){
-                    for(var i in map['additional-info'].table['displayed-value']){
-                        result['additional-info'].table['displayed-value'].push(map['additional-info'].table['displayed-value'][i]);
+                result.AdditionalInfo.Table.Show = true;
+                if(map.AdditionalInfo.Table.PropertyNames.length != 0){
+                    for(var i in map.AdditionalInfo.Table.PropertyNames){
+                        result.AdditionalInfo.Table.PropertyNames.push(map.AdditionalInfo.Table.PropertyNames[i]);
                     }
                 } else {
-                    result['additional-info'].table['displayed-value'].push(map['value-to-display'].value);
+                    result.AdditionalInfo.Table.PropertyNames.push(map.Property.PropertyName);
                 }
 
-                result.maptype.type = 'proportionalSymbol';
-                result.maptype.color = _getMiddleColor(map.maptype.colors);
-                result.maptype.symboltype = 'circle';
-                result.maptype.legend['number-of-symbols'] = 4;
-                result.maptype.legend['display-max-size'] = true;
-                result.maptype.legend['display-min-size'] = true;
-                result.maptype.legend['display-max'] = true;
-                result.maptype.legend['display-min'] = true;
-                result.maptype.legend.title = map.maptype.legend.title;
-                result.maptype.legend.position = map.maptype.legend.position;
+                result.ThematicType.Type = 'proportionalSymbol';
+                result.ThematicType.Fill = _getMiddleColor(map.ThematicType.Fill.Fill);
+                result.ThematicType.WellKnownName = 'circle';
+                result.ThematicType.RadialFactor = 0.15;
+                result.ThematicType.Stroke.Stroke = map.ThematicType.Stroke.Stroke;
+                result.ThematicType.Stroke.StrokeWidth = map.ThematicType.Stroke.StrokeWidth;
+                result.ThematicType.Polygon.Fill.Fill = '#FFF',
+                result.ThematicType.Polygon.Fill.FillOpacity = 0;
+                result.ThematicType.Polygon.Stroke.Stroke = map.ThematicType.Stroke.Stroke;
+                result.ThematicType.Polygon.Stroke.StrokeWidth = map.ThematicType.Stroke.StrokeWidth;
+                result.ThematicType.Legend.NrOfSymbols = 4;
+                result.ThematicType.Legend.ShowMaxSize = true;
+                result.ThematicType.Legend.ShowMinSize = true;
+                result.ThematicType.Legend.ShowMax = true;
+                result.ThematicType.Legend.ShowMin = true;
+                result.ThematicType.Legend.Title = map.ThematicType.Legend.Title;
+                result.ThematicType.Legend.Position = map.ThematicType.Legend.Position;
 
-                result.raw = map.raw;
+                result.Raw = map.Raw;
             } 
             return result;
         }

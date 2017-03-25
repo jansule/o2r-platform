@@ -19,20 +19,23 @@
         }
     },
     "ThematicType": {
-        "Fill": "#0570b0",
+        "Fill": {
+            "Fill": "#0570b0",
+            "FillOpacity": 1
+        },
         "Legend": {
             "NrOfSymbols": 4,
-            "DisplayMaxSize": false,
-            "DisplayMinSize": false,
-            "DisplayMax": true,
-            "DisplayMin": true,
+            "ShowMaxSize": false,
+            "ShowMinSize": false,
+            "ShowMax": true,
+            "ShowMin": true,
             "Title": "Betriebe",
             "Position": "bottomright"
         },
         "Polygon": {
             "Fill": {
                 "Fill": "#FFF",
-                "FillOpacity": 1
+                "FillOpacity": 0
             },
             "Stroke": {
                 "Stroke": "#000",

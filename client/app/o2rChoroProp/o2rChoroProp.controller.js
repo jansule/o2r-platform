@@ -29,9 +29,9 @@
         function activate(){
             angular.extend(vm.layers.overlays, {
                 "Choropleth": {
-                    name: vm.choroData['value-to-display'].value,
+                    name: vm.choroData.Property.PropertyName,
                     type: 'geoJSONShape',
-                    data: vm.choroData.raw,
+                    data: vm.choroData.Raw,
                     visible: true,
                     layerOptions: {
                         style: createChoropleth
@@ -40,7 +40,7 @@
             });
             angular.extend(vm.layers.overlays, {
                 "Proportional Symbol": {
-                    name: vm.propData['value-to-display'].value,
+                    name: vm.propData.Property.PropertyName,
                     type: 'group',
                     visible: true,
                     layerOptions: {
@@ -48,20 +48,20 @@
                             {
                                 name: 'BaseShape',
                                 type: 'geoJSONShape',
-                                data: vm.propData.raw,
+                                data: vm.propData.Raw,
                                 visible: true,
                                 layerOptions: {
-                                    color: '#000',
-                                    fillColor: '#000',
-                                    weight: 1,
+                                    color: vm.propData.ThematicType.Polygon.Stroke.Stroke,
+                                    fillColor: vm.propData.ThematicType.Polygon.Fill.Fill,
+                                    weight: vm.propData.ThematicType.Polygon.Stroke.StrokeWidth,
                                     opacity: 1,
-                                    fillOpacity: 0
+                                    fillOpacity: vm.propData.ThematicType.Polygon.Fill.FillOpacity
                                 },
                                 layerParams: {}
                             }, {
-                                name: vm.propData['value-to-display'].value,
+                                name: vm.propData.Property.PropertyName,
                                 type: 'geoJSONShape',
-                                data: findPolygonCenter.createMarkers(findPolygonCenter.center(vm.propData.raw)),
+                                data: findPolygonCenter.createMarkers(findPolygonCenter.center(vm.propData.Raw)),
                                 visible: true,
                                 layerOptions: {
                                     pointToLayer: createProportional
@@ -73,7 +73,7 @@
                 }
             });
 
-            var center = turf.center(vm.choroData.raw);
+            var center = turf.center(vm.choroData.Raw);
             angular.extend(vm.center, {
                 lat: center.geometry.coordinates[1],
                 lng: center.geometry.coordinates[0],
@@ -83,22 +83,22 @@
 
         function createProportional(feature, latlng){
             return L.circleMarker(latlng, {
-                radius: 0.15 * (feature.properties[vm.propData['value-to-display'].value]),
-                fillColor: vm.propData.maptype.color,
-                color: '#000',
-                weight: 1,
+                radius: 0.15 * (feature.properties[vm.propData.Property.PropertyName]),
+                fillColor: vm.propData.ThematicType.Fill.Fill,
+                color: vm.propData.ThematicType.Stroke.Stroke,
+                weight: vm.propData.ThematicType.Stroke.StrokeWidth,
                 opacity: 1,
-                fillOpacity: 1
+                fillOpacity: vm.propData.ThematicType.Fill.FillOpacity
             });
         }
 
         function createChoropleth(data){
             return {
-                fillColor: getColor(data.properties[vm.choroData['value-to-display'].value]),
-                weight: 1,
+                fillColor: getColor(data.properties[vm.choroData.Property.PropertyName]),
+                weight: vm.choroData.ThematicType.Stroke.StrokeWidth,
                 opacity: 1,
-                color: '#000',
-                fillOpacity: 1
+                color: vm.choroData.ThematicType.Stroke.Stroke,
+                fillOpacity: vm.choroData.ThematicType.Fill.FillOpacity
             };
         }
 
@@ -106,10 +106,10 @@
             var i = 0;
             var noColorSelected = true;
             while(noColorSelected){
-                if(i <= vm.choroData.maptype['number-of-classes'] && d > vm.choroData.maptype.classes[i]) i++;
+                if(i <= vm.choroData.ThematicType.Classes.NrOfClasses && d > vm.choroData.ThematicType.Classes.Classes[i]) i++;
                 else noColorSelected = false;
             }
-            return vm.choroData.maptype.colors[i];
+            return vm.choroData.ThematicType.Fill.Fill[i];
         }
     }
 })();

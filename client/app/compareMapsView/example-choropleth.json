@@ -33,8 +33,8 @@
             "StrokeWidth": 1
         },
         "Legend": {
-            "DisplayMin": true,
-            "DisplayMax": true,
+            "ShowMin": true,
+            "ShowMax": true,
             "Title": "Beschaeftigte je 1000 Einwohner",
             "Position": "bottomright"
         }

@@ -21,7 +21,7 @@
         vm.map2 = map2.data;
         $log.debug(vm.map1);
         $log.debug(vm.map2);
-        vm.maps = o2rMapComparability.compare(vm.map2, vm.map2);
+        vm.maps = o2rMapComparability.compare(vm.map1, vm.map2);
         $log.debug(vm.maps);
         vm.checkDisplay = checkDisplay;
         vm.gotoAnchor = gotoAnchor;
@@ -29,7 +29,7 @@
         /////////////
 
         function checkDisplay(map, t1, t2){
-            if((map.m1.maptype.type == t1) && (map.m2.maptype.type == t2)) return true;
+            if((map.m1.ThematicType.Type == t1) && (map.m2.ThematicType.Type == t2)) return true;
             return false;
         }
 

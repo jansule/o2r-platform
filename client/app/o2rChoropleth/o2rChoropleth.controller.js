@@ -26,26 +26,26 @@
         function activate(){
             angular.extend(vm.layers.baselayers, {
                 shape: {
-                    name: vm.data['value-to-display'].value,
+                    name: vm.data.Property.PropertyName,
                     type: 'geoJSONShape',
-                    data: vm.data.raw,
+                    data: vm.data.Raw,
                     visible: true,
                     layerOptions: {
                         style: create
                     }
                 }
             });
-            vm.labelClasses = angular.copy(vm.data.maptype.classes);
+            vm.labelClasses = angular.copy(vm.data.ThematicType.Classes.Classes);
             //vm.labelClasses.push('more');
             var legendlabel = prepareLegend(vm.labelClasses);
             angular.extend(vm, {
                 legend: {
-                    position: vm.data.maptype.legend.position,
-                    colors: vm.data.maptype.colors,
+                    position: vm.data.ThematicType.Legend.Postition,
+                    colors: vm.data.ThematicType.Fill.Fill,
                     labels: legendlabel
                 }
             });
-            var center = turf.center(vm.data.raw);
+            var center = turf.center(vm.data.Raw);
             angular.extend(vm.center, {
                 lat: center.geometry.coordinates[1],
                 lng: center.geometry.coordinates[0],
@@ -58,20 +58,20 @@
             var noColorSelected = true;
             while(noColorSelected){
 
-                if(i <= vm.data.maptype['number-of-classes'] && d > vm.data.maptype.classes[i]) i++;
+                if(i <= vm.data.ThematicType.Classes.NrOfClasses && d > vm.data.ThematicType.Classes.Classes[i]) i++;
                 else noColorSelected = false;
                 
             }
-            return vm.data.maptype.colors[i];
+            return vm.data.ThematicType.Fill.Fill[i];
         }
 
         function create(data){
             return {
-                fillColor: getColor(data.properties[vm.data['value-to-display'].value]),
-                weight: 1,
+                fillColor: getColor(data.properties[vm.data.Property.PropertyName]),
+                weight: vm.data.ThematicType.Stroke.StrokeWidth,
                 opacity: 1,
-                color: '#000',
-                fillOpacity: 1
+                color: vm.data.ThematicType.Stroke.Stroke,
+                fillOpacity: vm.data.ThematicType.Fill.FillOpacity
             };
         }
 

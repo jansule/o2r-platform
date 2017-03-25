@@ -73,11 +73,11 @@
                     "description": "Properties about the choropleth legend",
                     "type": "object",
                     "properties": {
-                        "DisplayMin": {
+                        "ShowMin": {
                             "description": "True, if minimum value is displayed",
                             "type": "boolean"
                         },
-                        "DisplayMax": {
+                        "ShowMax": {
                             "description": "True, if maximum value is displayed",
                             "type": "boolean"
                         },
@@ -91,7 +91,7 @@
                             "enum": ["topleft", "topright", "bottomleft", "bottomright"]
                         }
                     },
-                    "required": ["DisplayMin", "DisplayMax", "Title", "Position"]
+                    "required": ["ShowMin", "ShowMax", "Title", "Position"]
                 },
                 "Classes": {
                     "description": "Properties of classification of choropleth",
@@ -175,8 +175,19 @@
             "type": "object",
             "properties": {
                 "Fill": {
-                    "description": "Fill color of symbol as hexcode",
-                    "type": "string"
+                    "description": "Properties of symbol fill",
+                    "type": "object",
+                    "properties": {
+                        "Fill": {
+                            "description": "Fill color of symbol as hexcode",
+                            "type": "string"
+                        },
+                        "FillOpacity": {
+                            "description": "Fill opacity of symbol",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["Fill", "FillOpacity"]
                 },
                 "Legend": {
                     "description": "Properties of legend for proportional symbol map",
@@ -186,19 +197,19 @@
                             "description": "Number of symbols displayed in legend",
                             "type": "integer"
                         },
-                        "DisplayMaxSize": {
+                        "ShowMaxSize": {
                             "description": "True, if legend contains maximum value as reference symbol",
                             "type": "boolean"
                         },
-                        "DisplayMinSize": {
+                        "ShowMinSize": {
                             "description": "True, if legend contains minimum value as reference symbol",
                             "type": "boolean"
                         },
-                        "DisplayMax": {
+                        "ShowMax": {
                             "description": "True, if maximum value is displayed",
                             "type": "boolean"
                         },
-                        "DisplayMin": {
+                        "ShowMin": {
                             "description": "True, if minimum value is displayed",
                             "type": "boolean"
                         },
@@ -212,7 +223,7 @@
                             "enum": ["topleft", "topright", "bottomleft", "bottomright"]
                         }
                     },
-                    "required": ["NrOfSymbols", "DisplayMaxSize", "DisplayMinSize", "DisplayMax", "DisplayMin", "Title", "Position"]
+                    "required": ["NrOfSymbols", "ShowMaxSize", "ShowMinSize", "ShowMax", "ShowMin", "Title", "Position"]
                 },
                 "Polygon": {
                     "description": "Properties of polygon",

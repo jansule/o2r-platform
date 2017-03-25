@@ -96,7 +96,7 @@
 
         function create(feature, latlng){
             return L.circleMarker(latlng, {
-                radius: 0.15 * (feature.properties[vm.data.Property.PropertyName]),
+                radius: vm.data.ThematicType.RadialFactor * (feature.properties[vm.data.Property.PropertyName]),
                 fillColor: vm.data.ThematicType.Fill.Fill,
                 color: vm.data.ThematicType.Stroke.Stroke,
                 weight: vm.data.ThematicType.Stroke.StrokeWidth,

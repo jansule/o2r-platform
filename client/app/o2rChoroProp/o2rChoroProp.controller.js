@@ -83,7 +83,7 @@
 
         function createProportional(feature, latlng){
             return L.circleMarker(latlng, {
-                radius: 0.15 * (feature.properties[vm.propData.Property.PropertyName]),
+                radius: vm.propData.ThematicType.RadialFactor * (feature.properties[vm.propData.Property.PropertyName]),
                 fillColor: vm.propData.ThematicType.Fill.Fill,
                 color: vm.propData.ThematicType.Stroke.Stroke,
                 weight: vm.propData.ThematicType.Stroke.StrokeWidth,

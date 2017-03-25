@@ -1,204 +1,310 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "map schema",
-    "description": "Schema of a single map",
+    "description": "Schema of a thematic map",
     "type": "object",
     "definitions": {
-        "choropleth": {
+        "AdditionalInfo": {
+            "description": "Optional Information, that is not part of core elements of map",
             "type": "object",
             "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": ["choropleth"]
-                },
-                "number-of-classes": {
-                    "type": "integer"
-                },
-                "classes": {
-                    "type": "array",
-                    "items": {
-                        "type": ["number"]
-                    }
-                },
-                "colors": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "legend": {
+                "Label": {
+                    "description": "Properties of map labels",
                     "type": "object",
                     "properties": {
-                        "display-min": {
-                            "type": "boolean"
+                        "DataType": {
+                            "$ref": "#/definitions/DataType"
                         },
-                        "display-max": {
-                            "type": "boolean"
-                        },
-                        "title": {
-                            "type": "string"
-                        },
-                        "position": {
+                        "PropertyName": {
                             "type": "string",
-                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
-                        }
-                    },
-                    "required": ["display-min", "display-max", "title", "position"]
-                }
-            },
-            "required": ["type", "number-of-classes", "classes", "colors", "legend"]
-        },
-        "proportionalSymbol": {
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": ["proportionalSymbol"]
-                },
-                "color": {
-                    "type": "string"
-                },
-                "symboltype": {
-                    "type": "string",
-                    "enum": ["circle", "square", "other"]
-                },
-                "legend": {
-                    "type": "object",
-                    "properties": {
-                        "number-of-symbols": {
-                            "type": "integer"
+                            "description": "Name of property, that is displayed"
                         },
-                        "display-max-size": {
-                            "type": "boolean"
-                        },
-                        "display-min-size": {
-                            "type": "boolean"
-                        },
-                        "display-max": {
-                            "type": "boolean"
-                        },
-                        "display-min": {
-                            "type": "boolean"
-                        },
-                        "title": {
-                            "type": "string"
-                        },
-                        "position": {
-                            "type": "string",
-                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
-                        }
-                    },
-                    "required": ["number-of-symbols", "display-max-size", "display-min-size", "display-max", "display-min", "title", "position"]
-                }
-            },
-            "required": ["type", "color", "symboltype", "legend"]
-        },
-        "additional-info": {
-            "type": "object",
-            "properties": {
-                "label": {
-                    "type": "object",
-                    "properties": {
-                        "displayed": {
+                        "Show": {
                             "type": "boolean",
-                            "description": "true if labels are displayed"
-                        },
-                        "data-type": {
-                            "$ref": "#/definitions/data-type"
-                        },
-                        "display-value": {
-                            "type": "string",
-                            "description": "name of attribute, that is displayed"
+                            "description": "True, if labels are displayed"
                         }
                     },
-                    "required": ["displayed", "data-type", "display-value"]
+                    "required": ["DataType", "PropertyName", "Show"]
                 },
-                "table": {
+                "Table": {
+                    "description": "Properties of table that belongs to map",
                     "type": "object",
                     "properties": {
-                        "displayed": {
-                            "type": "boolean"
-                        },
-                        "displayed-value": {
+                        "PropertyNames": {
+                            "description": "Name of property, that is displayed",
                             "type": "array",
                             "items": {
                                 "type": "string"
                             }
-                        }   
+                        },   
+                        "Show": {
+                            "description": "True, if table is displayed",
+                            "type": "boolean"
+                        }
                     },
-                    "required": ["displayed", "displayed-value"]
+                    "required": ["PropertyNames", "Show"]
                 }
             },
-            "required": ["label", "table"]
+            "required": ["Label", "Table"]
         },
-        "value-to-display": {
+        "Choropleth": {
+            "description": "Properties for choropleth map",
             "type": "object",
             "properties": {
-                "value": {
+                "Fill": {
+                    "description": "Properties of polygon fill",
+                    "type": "object",
+                    "properties": {
+                        "Fill": {
+                            "description": "Fill color of polygons. Contains array of hexcodes",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "FillOpacity": {
+                            "description": "Opacity of fill color",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["Fill", "FillOpacity"]
+                },
+                "Legend": {
+                    "description": "Properties about the choropleth legend",
+                    "type": "object",
+                    "properties": {
+                        "DisplayMin": {
+                            "description": "True, if minimum value is displayed",
+                            "type": "boolean"
+                        },
+                        "DisplayMax": {
+                            "description": "True, if maximum value is displayed",
+                            "type": "boolean"
+                        },
+                        "Title": {
+                            "description": "Legend title",
+                            "type": "string"
+                        },
+                        "Position": {
+                            "description": "Position of legend in map frame",
+                            "type": "string",
+                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
+                        }
+                    },
+                    "required": ["DisplayMin", "DisplayMax", "Title", "Position"]
+                },
+                "Classes": {
+                    "description": "Properties of classification of choropleth",
+                    "type": "object",
+                    "properties": {
+                        "Classes": {
+                            "description": "Class breaks. Will be evaluated with LESSTHAN",
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "NrOfClasses": {
+                            "description": "Number of classes",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["Classes", "NrOfClasses"]
+                },
+                "Stroke": {
+                    "description": "Properties of polygon stroke",
+                    "type": "object",
+                    "properties": {
+                        "Stroke": {
+                            "description": "Stroke color of polygon as hexcode",
+                            "type": "string"
+                        },
+                        "StrokeWidth": {
+                            "description": "Stroke Width",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["Stroke", "StrokeWidth"]
+                },
+                "Type": {
+                    "description": "Thematic map type",
+                    "type": "string",
+                    "enum": ["choropleth"]
+                }
+            },
+            "required": ["Classes", "Fill", "Legend", "Stroke", "Type"]
+        },
+        "DataType": {
+            "description": "Data type of value",
+            "type": "string",
+            "enum": ["string", "integer", "float", "double"]
+        },
+        "Property": {
+            "description": "Properties of value that is being displayed",
+            "type": "object",
+            "properties": {
+                "DataType": {
+                    "$ref": "#/definitions/DataType"
+                },
+                "Max": {
+                    "description": "Maximum value found",
+                    "type": "number"
+                },
+                "Min": {
+                    "description": "Minimum value found",
+                    "type": "number"
+                },
+                "PropertyName": {
+                    "description": "Attribute name of property",
                     "type": "string"
                 },
-                "data-type": {
-                    "$ref": "#/definitions/data-type"
-                },
-                "scale-of-measurement": {
+                "ScaleOfMeasurement": {
+                    "description": "Scale of measurement of property",
                     "type": "string",
                     "enum": ["nominal", "ordinal", "numerical"]
                 },
-                "min": {
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                            "type": ["number", "string"]
-                        },
-                        "name": {
-                            "type": "string"
-                        }
-                    },
-                    "required": ["value", "name"]
-                },
-                "max": {
-                    "type": "object",
-                    "properties": {
-                        "value": {
-                            "type": ["number", "string"]
-                        },
-                        "name": {
-                            "type": "string"
-                        }
-                    },
-                    "required": ["value", "name"]
+                "ZoomFactor": {
+                    "description": "Default zoom factor for map",
+                    "type": "number"
                 }
             },
-            "required": ["value", "data-type", "scale-of-measurement", "min", "max"]
+            "required": ["DataType", "Max", "Min", "PropertyName", "ScaleOfMeasurement", "ZoomFactor"]
         },
-        "data-type": {
-            "type": "string",
-            "enum": ["string", "integer", "float", "double"]
+        "ProportionalSymbol": {
+            "description": "Properties for proportional symbol map",
+            "type": "object",
+            "properties": {
+                "Fill": {
+                    "description": "Fill color of symbol as hexcode",
+                    "type": "string"
+                },
+                "Legend": {
+                    "description": "Properties of legend for proportional symbol map",
+                    "type": "object",
+                    "properties": {
+                        "NrOfSymbols": {
+                            "description": "Number of symbols displayed in legend",
+                            "type": "integer"
+                        },
+                        "DisplayMaxSize": {
+                            "description": "True, if legend contains maximum value as reference symbol",
+                            "type": "boolean"
+                        },
+                        "DisplayMinSize": {
+                            "description": "True, if legend contains minimum value as reference symbol",
+                            "type": "boolean"
+                        },
+                        "DisplayMax": {
+                            "description": "True, if maximum value is displayed",
+                            "type": "boolean"
+                        },
+                        "DisplayMin": {
+                            "description": "True, if minimum value is displayed",
+                            "type": "boolean"
+                        },
+                        "Title": {
+                            "description": "Legend title",
+                            "type": "string"
+                        },
+                        "Position": {
+                            "description": "Legend position in map frame",
+                            "type": "string",
+                            "enum": ["topleft", "topright", "bottomleft", "bottomright"]
+                        }
+                    },
+                    "required": ["NrOfSymbols", "DisplayMaxSize", "DisplayMinSize", "DisplayMax", "DisplayMin", "Title", "Position"]
+                },
+                "Polygon": {
+                    "description": "Properties of polygon",
+                    "type": "object",
+                    "properties": {
+                        "Fill": {
+                            "description": "Properties of polygon fill",
+                            "type": "object",
+                            "properties": {
+                                "Fill": {
+                                    "description": "Fill color of polygon as hexcode",
+                                    "type": "string"
+                                },
+                                "FillOpacity": {
+                                    "description": "Opacity of polygon fill",
+                                    "type": "number"
+                                }
+                            },
+                            "required": ["Fill", "FillOpacity"]
+                        },
+                        "Stroke": {
+                            "description": "Properties of polygon stroke",
+                            "type": "object",
+                            "properties": {
+                                "Stroke": {
+                                    "description": "Stroke color of polygon as hexcode",
+                                    "type": "string"
+                                },
+                                "StrokeWidth": {
+                                    "description": "Stroke width of polygon",
+                                    "type": "number"
+                                }
+                            },
+                            "required": ["Stroke", "StrokeWidth"]
+                        }
+                    }
+                },
+                "RadialFactor": {
+                    "description": "Constant factor for symbol size. This factor will be mulitplied with the specific symbol value",
+                    "type": "number"
+                },
+                "Stroke": {
+                    "description": "Properties about symbol stroke",
+                    "type": "object",
+                    "properties": {
+                        "Stroke": {
+                            "description": "Stroke color as hexcode",
+                            "type": "string"
+                        },
+                        "StrokeWidth": {
+                            "description": "Stroke width",
+                            "type": "number"
+                        }
+                    }
+                },
+                "Type": {
+                    "description": "Thematic map type",
+                    "type": "string",
+                    "enum": ["proportionalSymbol"]
+                },
+                "WellKnownName": {
+                    "description": "Characteristical name of symbol type",
+                    "type": "string",
+                    "enum": ["circle", "square", "other"]
+                }
+            },
+            "required": ["Fill", "Legend", "Polygon", "RadialFactor", "Stroke", "Type", "WellKnownName"]
         }
     },
     "properties": {
-        "maptype": {
+        "AdditionalInfo": {
+            "$ref": "#/definitions/AdditionalInfo"
+        },
+        "Property": {
+            "$ref": "#/definitions/Property"
+        },
+        "Raw": {
+            "type": "object",
+            "description": "Contains geojson"
+        },
+        "ThematicType": {
             "type": "object",
             "oneOf": [
-                {"$ref": "#/definitions/choropleth"},
-                {"$ref": "#/definitions/proportionalSymbol"}
+                {"$ref": "#/definitions/Choropleth"},
+                {"$ref": "#/definitions/ProportionalSymbol"}
             ]
-        },
-        "value-to-display": {
-            "$ref": "#/definitions/value-to-display"
-        },
-        "additional-info": {
-            "$ref": "#/definitions/additional-info"
-        },
-        "raw": {
-            "type": "object",
-            "description": "contains geojson"
         }
     },
     "required": [
-        "maptype",
-        "value-to-display",
-        "additional-info",
-        "raw"
+        "AdditionalInfo",
+        "Property",
+        "Raw",
+        "ThematicType"
     ]
 }
